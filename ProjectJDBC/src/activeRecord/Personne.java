@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Personne {
 
     // --- Attributs ---
@@ -125,4 +126,46 @@ public class Personne {
 
         return res;
     }
+    //8.4 delete supprime la persone de la bd
+    public void delete() throws SQLException {
+        Connection c = DBConnection.getConnection();
+        String sql = "DELETE FROM Personne WHERE id = ?";
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.setInt(1, this.id);
+        ps.executeUpdate();
+        this.id = -1;
+    }
+
+    //8.1 cration et drop de la table
+    //creatiion
+    public static void createTable() throws SQLException {
+        Connection c = DBConnection.getConnection();
+        String sql = "CREATE TABLE Personne (id INTEGER AUTO_INCREMENT, nom VARCHAR(40), prenom VARCHAR(40), PRIMARY KEY(id))";
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.executeUpdate();
+    }
+
+    //delete
+    public static void deleteTable() throws SQLException {
+        Connection c = DBConnection.getConnection();
+        String sql = "DROP TABLE Personne";
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.executeUpdate();
+    }
+
+    public void save() throws SQLException {
+        if (this.id == -1) {
+            saveNew();
+        } else {
+            update();
+        }
+    }
+    public void saveNew() throws SQLException {
+        Connection c = DBConnection.getConnection();
+    }
+    public void update() throws SQLException {
+        Connection c = DBConnection.getConnection();
+
+    }
+
 }

@@ -6,18 +6,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TestPersonne {
 
+
+
+    //cree la table  et les personnes randoms
     @BeforeEach
-    public void setup() {
-        // On s'assure qu'on utilise la bonne base
+    public void setup() throws SQLException { // add automatique exeption car sinon ça fontionne pas
         DBConnection.setNomDB("testpersonne");
-        // Ici on suppose que la base est déjà peuplée par le script SQL
-        // (Spielberg, Scott, Kubrick, Fincher, etc.)
+        Personne.createTable();
+        new Personne("NomAlpha", "PrenomAlpha").save();
+        new Personne("NomBeta", "PrenomBeta").save();
+        new Personne("NomGamma", "PrenomGamma").save();
+        new Personne("NomDelta", "PrenomDelta").save();
     }
+    // supposons suelle existe
+
+    @AfterEach
+    public void clean() throws SQLException { // encore une fois
+        Personne.deleteTable();
+    }
+
+
 
     // 7.1 : test de findAll
     @Test
@@ -71,4 +85,5 @@ public class TestPersonne {
         assertTrue(inconnus.isEmpty(),
                 "findByName sur un nom inexistant doit renvoyer une liste vide");
     }
+
 }
